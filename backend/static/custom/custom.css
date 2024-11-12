@@ -1,0 +1,70 @@
+/* Enhanced UI Elements */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Modern Buttons */
+.btn {
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Enhanced Tables */
+.table thead th {
+    border-top: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Custom Form Styling */
+.form-control {
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+}
+
+/* Sidebar Enhancement */
+.nav-sidebar .nav-item .nav-icon {
+    width: 1.5rem;
+    text-align: center;
+}
+
+/* Dashboard Cards Enhancement */
+.small-box {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.small-box .icon {
+    opacity: 0.8;
+    transition: transform 0.3s ease-in-out;
+}
+
+.small-box:hover .icon {
+    transform: scale(1.1);
+}
+
+/* Custom Animation for Loading */
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
