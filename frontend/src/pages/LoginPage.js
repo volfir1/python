@@ -261,38 +261,8 @@ const LoginPage = () => {
                   mt: 2,
                   gap: 2 
                 }}>
-                  <Link
-                    to="/forgot-password"
-                    style={{ 
-                      color: "inherit",
-                      textDecoration: "none",
-                      fontSize: "0.875rem",
-                    }}
-                    sx={(theme) => ({
-                      color: theme.palette.primary.main,
-                      "&:hover": {
-                        color: theme.palette.primary.dark,
-                      }
-                    })}
-                  >
-                    Forgot Password?
-                  </Link>
-                  <Link
-                    to="/register"
-                    style={{ 
-                      color: "inherit",
-                      textDecoration: "none",
-                      fontSize: "0.875rem",
-                    }}
-                    sx={(theme) => ({
-                      color: theme.palette.primary.main,
-                      "&:hover": {
-                        color: theme.palette.primary.dark,
-                      }
-                    })}
-                  >
-                    Create Account
-                  </Link>
+                  
+                
                 </Box>
               </StyledForm>
             )}
