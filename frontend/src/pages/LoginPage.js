@@ -24,15 +24,15 @@ import {
 } from "lucide-react";
 import { styled } from "@mui/material/styles";
 
-// Styled Components remain the same
+// Using theme variables in styled components
 const LoginCard = styled(Card)(({ theme }) => ({
   width: "100%",
   maxWidth: "440px",
-  borderRadius: "1rem",
-  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-  background: "rgba(255, 255, 255, 0.9)",
+  borderRadius: theme.shape.borderRadius * 2,
+  boxShadow: theme.shadows[1],
+  background: theme.palette.background.paper,
   backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255, 255, 255, 0.8)",
+  border: `1px solid ${theme.palette.primary.lighter}`,
 }));
 
 const StyledForm = styled(Form)(({ theme }) => ({
@@ -41,17 +41,23 @@ const StyledForm = styled(Form)(({ theme }) => ({
   gap: theme.spacing(3),
 }));
 
-// Simplified Validation Schema
+// Custom TextField styled with theme
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: theme.shape.borderRadius,
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.light,
+    },
+  },
+}));
+
 const LoginSchema = Yup.object().shape({
-  enrollment_number: Yup.string()
-    .required('Enrollment number is required'),
-  password: Yup.string()
-    .required('Password is required'),
+  enrollment_number: Yup.string().required('Enrollment number is required'),
+  password: Yup.string().required('Password is required'),
 });
 
-// Custom TextField component remains the same
-const CustomTextField = ({ field, form: { touched, errors }, ...props }) => (
-  <TextField
+const FormTextField = ({ field, form: { touched, errors }, ...props }) => (
+  <CustomTextField
     {...field}
     {...props}
     error={touched[field.name] && Boolean(errors[field.name])}
@@ -71,68 +77,68 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
-    setError(null);
+    setError(null); // This uses setError
     try {
-        // Log the values being sent
-        console.log("Sending login data:", {
-            enrollment_number: values.enrollment_number,
-            password: values.password
-        });
+      // Log the values being sent
+      console.log("Sending login data:", {
+        enrollment_number: values.enrollment_number,
+        password: values.password
+      });
 
-        const event = {
-            preventDefault: () => {},
-            target: {
-                enrollment_number: { value: values.enrollment_number },
-                password: { value: values.password },
-            },
-        };
+      const event = {
+        preventDefault: () => {},
+        target: {
+          enrollment_number: { value: values.enrollment_number },
+          password: { value: values.password },
+        },
+      };
 
-        // Log the actual event being sent
-        console.log("Login event:", event);
-        
-        await loginUser(event);
-        navigate("/dashboard");
+      // Log the actual event being sent
+      console.log("Login event:", event);
+      
+      await loginUser(event); // This uses loginUser
+      navigate("/dashboard"); // This uses navigate
     } catch (err) {
-        console.error("Login error:", err.response?.data);  // Log the error response
-        if (err.response?.data) {
-            const { data } = err.response;
-            if (data.detail) {
-                setError(data.detail);
-            } else if (data.enrollment_number) {
-                setFieldError("enrollment_number", data.enrollment_number);
-            } else if (data.password) {
-                setFieldError("password", data.password);
-            } else {
-                setError(JSON.stringify(data));  // Show the raw error data
-            }
+      console.error("Login error:", err.response?.data);
+      if (err.response?.data) {
+        const { data } = err.response;
+        if (data.detail) {
+          setError(data.detail);
+        } else if (data.enrollment_number) {
+          setFieldError("enrollment_number", data.enrollment_number);
+        } else if (data.password) {
+          setFieldError("password", data.password);
         } else {
-            setError("An error occurred. Please try again later.");
+          setError(JSON.stringify(data));
         }
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
     } finally {
-        setSubmitting(false);
+      setSubmitting(false);
     }
-};
+  };
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         height: "100vh",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #f6f7ff 0%, #f0f2ff 100%)",
+        background: theme.palette.background.gradient,
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-      }}
+      })}
     >
-      <LoginCard elevation={0}>
+      <LoginCard>
         <CardContent 
-          sx={{ 
-            padding: 4,
+          sx={(theme) => ({ 
+            padding: theme.spacing(4),
             height: "auto",
             maxHeight: "calc(100vh - 48px)",
             overflow: "auto",
@@ -143,24 +149,24 @@ const LoginPage = () => {
               background: "transparent",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "#bbb",
-              borderRadius: "4px",
+              background: theme.palette.text.disabled,
+              borderRadius: theme.shape.borderRadius,
               "&:hover": {
-                background: "#999",
+                background: theme.palette.text.secondary,
               },
             },
-          }}
+          })}
         >
           <Box sx={{ textAlign: "center", mb: 4 }}>
             <Typography
               variant="h4"
               gutterBottom
-              sx={{
-                fontWeight: 600,
-                background: "linear-gradient(120deg, #3a86ff, #8338ec)",
+              sx={(theme) => ({
+                fontWeight: theme.typography.h4.fontWeight,
+                background: `linear-gradient(120deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-              }}
+              })}
             >
               Welcome Back
             </Typography>
@@ -184,7 +190,7 @@ const LoginPage = () => {
               <StyledForm>
                 <Field
                   name="enrollment_number"
-                  component={CustomTextField}
+                  component={FormTextField}
                   fullWidth
                   label="Enrollment Number"
                   placeholder="Enter your enrollment number"
@@ -200,7 +206,7 @@ const LoginPage = () => {
 
                 <Field
                   name="password"
-                  component={CustomTextField}
+                  component={FormTextField}
                   fullWidth
                   label="Password"
                   type={showPassword ? "text" : "password"}
@@ -230,14 +236,14 @@ const LoginPage = () => {
                   variant="contained"
                   size="large"
                   disabled={isSubmitting}
-                  sx={{
+                  sx={(theme) => ({
                     mt: 2,
                     height: 48,
-                    background: "linear-gradient(135deg, #3a86ff 0%, #8338ec 100%)",
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
                     "&:hover": {
-                      background: "linear-gradient(135deg, #2872ff 0%, #7229dd 100%)",
+                      background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary.dark} 100%)`,
                     },
-                  }}
+                  })}
                 >
                   {isSubmitting ? (
                     <CircularProgress size={24} color="inherit" />
@@ -258,20 +264,32 @@ const LoginPage = () => {
                   <Link
                     to="/forgot-password"
                     style={{ 
-                      color: "#3a86ff",
+                      color: "inherit",
                       textDecoration: "none",
                       fontSize: "0.875rem",
                     }}
+                    sx={(theme) => ({
+                      color: theme.palette.primary.main,
+                      "&:hover": {
+                        color: theme.palette.primary.dark,
+                      }
+                    })}
                   >
                     Forgot Password?
                   </Link>
                   <Link
                     to="/register"
                     style={{ 
-                      color: "#3a86ff",
+                      color: "inherit",
                       textDecoration: "none",
                       fontSize: "0.875rem",
                     }}
+                    sx={(theme) => ({
+                      color: theme.palette.primary.main,
+                      "&:hover": {
+                        color: theme.palette.primary.dark,
+                      }
+                    })}
                   >
                     Create Account
                   </Link>
