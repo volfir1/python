@@ -77,14 +77,8 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
-    setError(null); // This uses setError
+    setError(null);
     try {
-      // Log the values being sent
-      console.log("Sending login data:", {
-        enrollment_number: values.enrollment_number,
-        password: values.password
-      });
-
       const event = {
         preventDefault: () => {},
         target: {
@@ -92,14 +86,13 @@ const LoginPage = () => {
           password: { value: values.password },
         },
       };
-
-      // Log the actual event being sent
-      console.log("Login event:", event);
       
-      await loginUser(event); // This uses loginUser
-      navigate("/dashboard"); // This uses navigate
+      await loginUser(event);
+      
+      // Navigation will be handled by the loginUser function in AuthContext
+      // The loginUser function will check user type and redirect accordingly
     } catch (err) {
-      console.error("Login error:", err.response?.data);
+      console.error("Login error:", err);
       if (err.response?.data) {
         const { data } = err.response;
         if (data.detail) {
