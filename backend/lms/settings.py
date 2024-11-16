@@ -80,154 +80,305 @@ TEMPLATES = [
     },
 ]
 
-
 JAZZMIN_SETTINGS = {
     # Core Settings
-    "site_title": "LMS Portal",
-    "site_header": "Learning Management System",
-    "site_brand": "LMS",
-    "site_logo": None,  # You can add your logo path here
-    "login_logo": None,  # Custom logo for login page
-    "login_logo_dark": None,  # Logo for dark mode
-    "site_logo_classes": "img-circle",
-    "site_icon": None,  # Icon for browser tab
-    "welcome_sign": "Welcome to LMS Administration",
-    "copyright": "LMS © 2024 - Powered by Jazzmin",
-    "search_model": ["users.User", "courses.Course", "forum.Discussion"],
-    "user_avatar": None,
-
-    # Top Menu Items
-    "topmenu_links": [
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "Support", "url": "https://github.com/yourusername/lms", "new_window": True},
-        {"model": "users.User"},
-        {"app": "courses"},
-    ],
-
-    # User Menu Items
-    "usermenu_links": [
-        {"name": "Profile", "url": "admin:users_user_change", "icon": "fas fa-user"},
-        {"name": "Support", "url": "https://github.com/yourusername/lms", "icon": "fas fa-question-circle"},
-    ],
-
-    # Side Menu Items
+    "site_title": "Learning Hub",
+    "site_header": "Learning Hub",
+    "site_brand": "LH",
+    "site_logo": None,
+    "login_logo": None,
+    "login_logo_dark": None,
+    "site_icon": None,
+    "welcome_sign": "Welcome to Learning Hub",
+    "copyright": "Learning Hub © 2024",
+    
+    # Navigation
     "show_sidebar": True,
-    "navigation_expanded": True,
+    "navigation_expanded": False,
     "hide_apps": [],
     "hide_models": [],
-    "order_with_respect_to": ["users", "courses", "forum"],
+    "order_with_respect_to": ["users", "courses", "base", "forum"],
     
-    # Custom Icons (using FontAwesome)
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "users.User": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "admin.LogEntry": "fas fa-file",
-        "courses.Course": "fas fa-graduation-cap",
-        "courses.Lesson": "fas fa-book-open",
-        "courses.Assignment": "fas fa-tasks",
-        "forum.Discussion": "fas fa-comments",
-        "forum.Comment": "fas fa-comment",
-        "users.Profile": "fas fa-id-card",
-    },
-
-    # Icon style
-    "default_icon_parents": "fas fa-folder",
-    "default_icon_children": "fas fa-file",
-
-    # Related Modal
-    "related_modal_active": True,
-
-    # Custom CSS/JS
-    "custom_css": None,
-    "custom_js": None,
-    "show_ui_builder": True,
-    "changeform_format": "horizontal_tabs",
+    # Top Navigation
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "users.User"},
+        {"model": "courses.Course"},
+        {"model": "courses.TimeTable"},
+    ],
     
-    # Form Customization
-    "changeform_format_overrides": {
-        "users.user": "collapsible",
-        "auth.group": "horizontal_tabs",
-        "courses.course": "horizontal_tabs",
-    },
-
-    # Dashboard Customization
-    "custom_links": {
-        "courses": [{
-            "name": "Create Course", 
-            "url": "admin:courses_course_add", 
-            "icon": "fas fa-plus",
-            "permissions": ["courses.add_course"]
-        }],
-        "users": [{
-            "name": "Add User",
-            "url": "admin:users_user_add",
-            "icon": "fas fa-plus",
-            "permissions": ["users.add_user"]
-        }]
-    },
-
-    # Dashboard Cards
-    "show_metrics": True,
-    "metrics": [
+    # User Menu
+    "usermenu_links": [
         {
-            "model": "users.User",
-            "name": "Users",
-            "icon": "fas fa-users",
-            "color": "primary"
+            "name": "Profile",
+            "url": "admin:users_user_change",
+            "icon": "fas fa-user-circle"
         },
         {
-            "model": "courses.Course",
-            "name": "Courses",
-            "icon": "fas fa-graduation-cap",
-            "color": "success"
-        },
-        {
-            "model": "forum.Discussion",
-            "name": "Discussions",
-            "icon": "fas fa-comments",
-            "color": "info"
+            "name": "Settings",
+            "url": "admin:index",
+            "icon": "fas fa-cog"
         },
     ],
+    
+    # UI Components
+    "show_ui_builder": True,
+    "changeform_format": "horizontal_tabs",
+    "related_modal_active": True,
+    
+    # Icons
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "users.User": "fas fa-user-graduate",
+        "auth.Group": "fas fa-users",
+        "courses.Course": "fas fa-graduation-cap",
+        "courses.Lesson": "fas fa-book-reader",
+        "courses.Assignment": "fas fa-tasks",
+        "forum.Discussion": "fas fa-comments",
+        "forum.Comment": "fas fa-comment-alt",
+        "users.Profile": "fas fa-id-card",
+    },
+    
+    # Custom Links
+    "custom_links": {
+        "courses": [{
+            "name": "Add Course", 
+            "url": "admin:courses_course_add", 
+            "icon": "fas fa-plus-circle",
+            "permissions": ["courses.add_course"]
+        }],
+    },
+    
+    # Custom CSS/JS
+    "custom_css": True,
+    "custom_js": True,
+    
+    # Show UI builder
+    "show_ui_builder": True,
 }
-
-# UI Customization with a modern color scheme
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
     "brand_colour": False,
-    "accent": "accent-primary",
-    "navbar": "navbar-dark",
+    "accent": "accent-indigo",
+    "navbar": "navbar-white navbar-light",
     "no_navbar_border": True,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-primary",
+    "sidebar": "sidebar-light-indigo",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": True,
-    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": True,
     "sidebar_nav_flat_style": False,
-    "theme": "darkly",  # Options: cosmo, cyborg, darkly, flatly, journal, litera, lumen, lux, materia, minty, pulse, sandstone, simplex, slate, solar, spacelab, superhero, united, yeti
-    "dark_mode_theme": "superhero",
+    "theme": "default",
+    "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
         "info": "btn-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
-        "success": "btn-success"
-    },
-    "actions_sticky_top": True,
+        "success": "btn-outline-success"
+    }
+}
+# Custom CSS for enhanced styling
+custom_css = """
+/* Global Styles */
+:root {
+    --primary-color: #6366F1;
+    --secondary-color: #4F46E5;
+    --success-color: #22C55E;
+    --background-color: #F9FAFB;
+    --text-color: #1F2937;
+    --border-radius: 0.75rem;
+    --transition: all 0.3s ease;
 }
 
-# Optional: Custom CSS for additional styling
-JAZZMIN_SETTINGS["custom_css"] = "custom/custom.css"
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Sidebar Styling */
+.main-sidebar {
+    background: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nav-sidebar .nav-item > .nav-link {
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0.7rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.nav-sidebar .nav-item > .nav-link:hover {
+    background-color: #F3F4F6;
+    color: var(--primary-color);
+}
+
+.nav-sidebar .nav-item > .nav-link.active {
+    background-color: #EEF2FF;
+    color: var(--primary-color);
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 1.5rem;
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #E5E7EB;
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Table Styling */
+.table {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #F9FAFB;
+    border-bottom: 1px solid #E5E7EB;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Search Bar */
+.navbar .form-control {
+    background-color: #F3F4F6;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+}
+
+.navbar .form-control:focus {
+    background-color: white;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    padding: 1rem 0;
+    margin: 0;
+    background: transparent;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F3F4F6;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 3px;
+}
+
+/* Action Buttons */
+.actions-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Stats Cards */
+.small-box {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.small-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+.nav-item, .card, .btn {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Modern Select Styling */
+select.form-control {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    appearance: none;
+}
+"""
+
+JAZZMIN_SETTINGS["custom_css"] = custom_css
 
 WSGI_APPLICATION = 'lms.wsgi.application'
 
